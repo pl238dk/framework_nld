@@ -4,27 +4,6 @@ requests.packages.urllib3.disable_warnings()
 import json
 import time
 
-def timestamp(method):
-	def wrapper(*args, **kwargs):
-		ts = time.time()
-		result = method(*args, **kwargs)
-		te = time.time()
-		time_result = int((te-ts) * 1000)
-		message = (
-			f'[I] '
-			f'{method.__qualname__}'
-			f' took '
-			f'{time_result}'
-			f'ms to complete, or ~'
-			f'{time_result//60000}'
-			'm, or ~'
-			f'{time_result//1000}'
-			f's'
-		)
-		print(message)
-		return result
-	return wrapper
-
 class NetLineDancer(object):
 	def __init__(self, server_ip):
 		self.session = requests.Session()
@@ -332,7 +311,6 @@ class NetLineDancer(object):
 		output = self.get_method(method, params)
 		return output
 	
-	@timestamp
 	def get_telemetry_arp_entries_all(self):
 		output = []
 		offset=0
